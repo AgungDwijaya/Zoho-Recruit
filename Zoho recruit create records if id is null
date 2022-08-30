@@ -1,0 +1,58 @@
+
+response = zoho.recruit.getRecordById("Candidates",id,"recruit_zom");
+getCDID = response.get("Candidate ID");
+getCDname = response.get("Last Name");
+getCDemail = response.get("Email");
+getCDMobile = response.get("Mobile");
+getCDPhone = response.get("Phone");
+getCDWebsite = response.get("Website");
+getCDlinkedin = response.get("Linkedin_Url");
+getCDskype = response.get("Skype_ID");
+getCDtwitter = response.get("Twitter");
+getCDstreet = response.get("Street");
+getCDcity = response.get("City");
+getCDcountry = response.get("Country");
+getCDzip = response.get("Zip Code");
+getCDstate = response.get("State");
+getCDstatus = response.get("Candidate Status");
+getrecruitID = response.get("CANDIDATEID");
+paramMap = Map();
+paramMap.put("Client_Employee_Name",getCDname);
+paramMap.put("Email",getCDemail);
+paramMap.put("Street",getCDstreet);
+paramMap.put("City",getCDcity);
+paramMap.put("Country",getCDcountry);
+paramMap.put("Zip_Postal_Code",getCDzip);
+paramMap.put("State_Province",getCDstate);
+paramMap.put("Phone_Number",getCDPhone);
+paramMap.put("Employee_Status",getCDstatus);
+paramMap.put("Zoho_Recruit_ID",getrecruitID);
+getrecords = zoho.creator.getRecords("deployed","deployed-staff","All_Client_Employees","",1,100,"creator_zom");
+lis = List();
+records = getrecords.get("data");
+for each  var in records
+{
+	lis.add(var.get("Zoho_Recruit_ID"));
+}
+info lis;
+for each  ele in lis
+{
+	if(ele == getrecruitID)
+	{
+		val = "contains";
+	}
+}
+if(val != "contains")
+{
+	datamap = Map();
+	datamap.put("data",paramMap);
+	urlCreator = "https://creator.zoho.com/api/v2/deployed/deployed-staff/form/Client_Employee";
+	response1 = invokeurl
+	[
+		url :urlCreator
+		type :POST
+		parameters:datamap.toString()
+		connection:"creator_zom"
+	];
+	info response1;
+}
